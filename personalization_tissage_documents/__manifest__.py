@@ -25,7 +25,8 @@
     # always loaded
     'data': [
         'report/sale_action_report_saleorder_custom.xml',
-        'report/sale_report_templates_custom.xml'
+        'report/sale_report_templates_custom.xml',
+        'report/report_invoice_custom.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
