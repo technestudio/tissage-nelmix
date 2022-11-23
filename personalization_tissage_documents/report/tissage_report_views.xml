@@ -14,6 +14,19 @@
         <field name="dpi">100</field>
     </record>
 
+    <record id="paperformat_conduce" model="report.paperformat">
+        <field name="name">Conduce</field>
+        <field name="format">Legal</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">60</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">60</field>
+        <field name="dpi">100</field>
+    </record>
+
     <record id="sale_action_report_saleorder_custom" model="ir.actions.report">
         <field name="name">Cotización / Pedido Tissage</field>
         <field name="model">sale.order</field>
@@ -64,6 +77,18 @@
         <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>        
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="paperformat_id" ref="paperformat_pedidos_presupuestos" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_delivery_custom" model="ir.actions.report">
+        <field name="name">Conduce</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">personalization_tissage_documents.report_deliveryslip_custom</field>
+        <field name="report_file">personalization_tissage_documents.report_deliveryslip_custom</field>
+        <field name="print_report_name">'Conduce - %s - %s' % (object.partner_id.name or '', object.name)</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="paperformat_id" ref="paperformat_conduce" />
         <field name="binding_type">report</field>
     </record>
 

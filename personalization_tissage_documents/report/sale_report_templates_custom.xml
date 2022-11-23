@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="page" style="margin-top:40px">
+                <div class="page" style="margin-top:100px;">
                     <div class="oe_structure" />
                     <div class="row mt32 mb32" id="informations">
                         <div t-if="doc.partner_id" class="col-auto col-4 mw-100 mb-2">
@@ -387,7 +387,7 @@
                             <li t-if="company.vat" class="list-inline-item d-inline">
                                 <t
                                     t-out="company.country_id.vat_label or 'Tax ID'" />
-                                :
+                                
                                 <span t-field="company.vat" />
                             </li>
                         </ul>

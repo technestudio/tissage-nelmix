@@ -277,16 +277,16 @@
                 </t>                
 
                 <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
-                    <div class="row" style="margin-top:1px; margin-left:5px;">                   
-                        <div class="col-4" t-if="o.invoice_date">
+                    <div class="row" style="margin-top:1px; text-align: left;">                   
+                        <div class="col-auto col-4 mw-100 mb-2" t-if="o.invoice_date">
                             <t t-esc="'Fecha:'"  />
                             <span t-field="o.invoice_date" />
-                        </div>    
-                        <div class="col-4">
+                        </div>                            
+                        <div class="col-auto col-4 mw-100 mb-2">
                             <t t-esc="'Original: Cliente, Copia: Vendedor'"  />            
                         </div>
                         
-                        <div class="col-4">
+                        <div class="col-auto col-4 mw-100 mb-2" style="text-align: right;">
                             <div t-if="report_type == 'pdf'" class="text-right">
                                 Page: <span class="page"/> / <span class="topage"/>
                             </div>
