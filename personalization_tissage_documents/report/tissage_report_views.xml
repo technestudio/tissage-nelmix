@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="paperformat_pedidos_presupuestos" model="report.paperformat">
+    <record id="paperformat_documentos_tissage" model="report.paperformat">
         <field name="name">Pedidos de ventas</field>
         <field name="format">Legal</field>
         <field name="orientation">Portrait</field>
@@ -9,20 +9,7 @@
         <field name="margin_bottom">20</field>
         <field name="margin_left">7</field>
         <field name="margin_right">7</field>
-        <field name="header_line" eval="False"/>
-        <field name="header_spacing">60</field>
-        <field name="dpi">100</field>
-    </record>
-
-    <record id="paperformat_conduce" model="report.paperformat">
-        <field name="name">Conduce</field>
-        <field name="format">Legal</field>
-        <field name="orientation">Portrait</field>
-        <field name="margin_top">60</field>
-        <field name="margin_bottom">20</field>
-        <field name="margin_left">7</field>
-        <field name="margin_right">7</field>
-        <field name="header_line" eval="False"/>
+        <field name="header_line" eval="False" />
         <field name="header_spacing">60</field>
         <field name="dpi">100</field>
     </record>
@@ -47,7 +34,7 @@
         <field name="report_file">personalization_tissage_documents.report_saleorder_pro_forma_custom</field>
         <field name="print_report_name">'PRO-FORMA - %s' % (object.name)</field>
         <field name="binding_model_id" ref="sale.model_sale_order" />
-        <field name="paperformat_id" ref="paperformat_pedidos_presupuestos" />
+        <field name="paperformat_id" ref="paperformat_documentos_tissage" />
         <field name="binding_type">report</field>
         <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]" />
     </record>
@@ -60,11 +47,11 @@
         <field name="report_file">personalization_tissage_documents.report_invoice_with_payments_custom</field>
         <field name="print_report_name">(object._get_report_base_filename())</field>
         <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
-        <field name="binding_model_id" ref="account.model_account_move"/>
-        <field name="paperformat_id" ref="paperformat_pedidos_presupuestos" />
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="paperformat_id" ref="paperformat_documentos_tissage" />
         <field name="binding_type">report</field>
         <field name="groups_id" eval="[(4, ref('account.group_account_invoice')),
-(4, ref('account.group_account_readonly'))]"/>
+(4, ref('account.group_account_readonly'))]" />
     </record>
 
     <record id="account_invoices_without_payment_custom" model="ir.actions.report">
@@ -74,9 +61,9 @@
         <field name="report_name">personalization_tissage_documents.report_invoice_custom</field>
         <field name="report_file">personalization_tissage_documents.report_invoice_custom</field>
         <field name="print_report_name">(object._get_report_base_filename())</field>
-        <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>        
-        <field name="binding_model_id" ref="account.model_account_move"/>
-        <field name="paperformat_id" ref="paperformat_pedidos_presupuestos" />
+        <field name="attachment">(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')</field>
+        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="paperformat_id" ref="paperformat_documentos_tissage" />
         <field name="binding_type">report</field>
     </record>
 
@@ -87,8 +74,8 @@
         <field name="report_name">personalization_tissage_documents.report_deliveryslip_custom</field>
         <field name="report_file">personalization_tissage_documents.report_deliveryslip_custom</field>
         <field name="print_report_name">'Conduce - %s - %s' % (object.partner_id.name or '', object.name)</field>
-        <field name="binding_model_id" ref="stock.model_stock_picking"/>
-        <field name="paperformat_id" ref="paperformat_conduce" />
+        <field name="binding_model_id" ref="stock.model_stock_picking" />
+        <field name="paperformat_id" ref="paperformat_documentos_tissage" />
         <field name="binding_type">report</field>
     </record>
 

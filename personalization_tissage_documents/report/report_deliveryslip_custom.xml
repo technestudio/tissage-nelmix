@@ -30,7 +30,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-4" name="datos_empresa" style="text-align:left; margin-top: 45px">
+                            <div class="col-4" name="datos_empresa" style="text-align:left; margin-top: 45px;">
 
                                 <div class="text-left">
                                     <div t-if="company.partner_id.contact_address">
@@ -107,13 +107,17 @@
                                     <div t-if="o.partner_id.phone">
                                         <strong>Teléfono: </strong>
                                         <span class="m-0" t-field="o.partner_id.phone" />
-                                    </div>                                    
+                                    </div>
 
                                 </div>
                                 <div t-if="partner and o.picking_type_id.code!='outgoing'" name="partner_else">
                                     <div t-field="partner.self"
-                                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                                    <p t-if="partner.sudo().vat"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="partner.sudo().vat"/></p>
+                                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+                                    <p t-if="partner.sudo().vat">
+                                        <t t-esc="o.company_id.country_id.vat_label or 'Tax ID'" />
+                                        :
+                                        <span t-field="partner.sudo().vat" />
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-4" name="div_outgoing_address">
@@ -137,7 +141,7 @@
                             <t t-esc="'Número de conduce:'" />
                             <span t-field="o.name" />
                         </h2>
-                        
+
                         <table class="table table-sm" t-if="o.state!='done'" name="stock_move_table">
                             <thead>
                                 <tr>
@@ -155,16 +159,16 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>                            
+                            <tbody>
                                 <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)" />
                                 <tr t-foreach="lines" t-as="move">
                                     <td>
                                         <span t-field="move.product_id.default_code" />
-                                       
+
                                     </td>
                                     <td>
                                         <span t-field="move.product_id.name" />
-                        
+
                                     </td>
                                     <td>
                                         <span t-field="move.product_uom_qty" />
@@ -172,9 +176,9 @@
                                     </td>
                                     <td>
                                         <span t-field="move.quantity_done" />
-                                        <span t-field="move.product_uom" />                                        
-                                    </td>                                    
-                                </tr>                                
+                                        <span t-field="move.product_uom" />
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done'" name="stock_move_line_table">
@@ -232,28 +236,18 @@
                                     <t t-if="move_lines" name="no_package_move_lines">
                                         <t t-call="stock.stock_report_delivery_no_package_section_line" name="no_package_section" />
                                         <t t-if="has_serial_number">
-                                            
+
                                             <t t-set="entregado_global" t-value="0" />
                                             <tr t-foreach="move_lines" t-as="move_line">
                                                 <!-- <t t-call="personalization_tissage_documents.stock_report_delivery_has_serial_move_line_custom" /> -->
-                                                
+
                                                 <td>
-                                                    <span t-field="move_line.product_id.default_code" />          
-                                    
+                                                    <span t-field="move_line.product_id.default_code" />
+
                                                 </td>
                                                 <td>
-                                                    <span t-field="move_line.product_id.name" />          
-                                    
-                                                    <!-- <span t-field="move_line.product_id" /> -->
-                                                    <!-- this is an annoying workaround for the multiple types of descriptions (often auto-filled) that we do not want to print -->
-                                                    <!-- this makes it so we can pre-filter the descriptions in inherited templates since we cannot extend the standard "if" condition -->
-                                                    <!-- let's agree that pre-filtered descriptions will be set to "" -->
-                                                    <!-- <t t-if="not description and description != ''">
-                                                        <t t-set="description" t-value="move_line.product_id.name" />
-                                                    </t> -->
-                                                    <!-- <p t-if="description !='' and description != move_line.product_id.name">
-                                                        <span t-esc="description" />
-                                                    </p> -->
+                                                    <span t-field="move_line.product_id.name" />
+
                                                 </td>
                                                 <t t-if="has_serial_number" name="move_line_lot">
                                                     <td>
@@ -264,15 +258,15 @@
                                                     <span t-field="move_line.qty_done" />
                                                     <span t-field="move_line.product_uom_id" />
                                                     <t t-set="entregado_global" t-value="entregado_global + move_line.qty_done" />
-                                                </td>  
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;"  >
-                                                              
+                                                <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;">
+
                                                     <strong>Despachado: </strong>
                                                     <span t-esc="entregado_global" />
-                                                   
-                                                </th>   
+
+                                                </th>
                                             </tr>
                                         </t>
                                         <t t-else="">
@@ -295,22 +289,12 @@
                                             <!-- <t t-call="personalization_tissage_documents.stock_report_delivery_has_serial_move_line_custom" /> -->
 
                                             <td>
-                                                <span t-field="move_line.product_id.default_code" />          
-                                
+                                                <span t-field="move_line.product_id.default_code" />
+
                                             </td>
                                             <td>
-                                                <span t-field="move_line.product_id.name" />          
-                                
-                                                <!-- <span t-field="move_line.product_id" /> -->
-                                                <!-- this is an annoying workaround for the multiple types of descriptions (often auto-filled) that we do not want to print -->
-                                                <!-- this makes it so we can pre-filter the descriptions in inherited templates since we cannot extend the standard "if" condition -->
-                                                <!-- let's agree that pre-filtered descriptions will be set to "" -->
-                                                <!-- <t t-if="not description and description != ''">
-                                                    <t t-set="description" t-value="move_line.product_id.name" />
-                                                </t> -->
-                                                <!-- <p t-if="description !='' and description != move_line.product_id.name">
-                                                    <span t-esc="description" />
-                                                </p> -->
+                                                <span t-field="move_line.product_id.name" />
+
                                             </td>
                                             <t t-if="has_serial_number" name="move_line_lot">
                                                 <td>
@@ -321,18 +305,18 @@
                                                 <span t-field="move_line.qty_done" />
                                                 <span t-field="move_line.product_uom_id" />
                                                 <t t-set="entregado_global" t-value="entregado_global + move_line.qty_done" />
-                                            </td>                                              
+                                            </td>
 
                                         </tr>
 
                                         <tr>
-                                            <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;"  >
-                                                          
+                                            <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;">
+
                                                 <strong>Despachado: </strong>
                                                 <span t-esc="entregado_global" />
-                                               
-                                            </th>                                            
-                                       
+
+                                            </th>
+
                                         </tr>
 
                                     </t>
@@ -378,12 +362,9 @@
                                                 </p> -->
                                             </td>
 
-                                            
+
                                             <td class="w-auto">
                                                 <span t-field="bo_line.product_id.name" />
-                                                <!-- <p t-if="bo_line.description_picking != bo_line.product_id.name and bo_line.description_picking != bo_line.product_id.display_name">
-                                                    <span t-field="bo_line.product_id.name" />
-                                                </p> -->
                                             </td>
                                             <td />
                                             <td class="text-center w-auto">
@@ -396,51 +377,51 @@
                             </table>
                         </t>
 
-                        <div style="margin-top:30px">
+                        <div style="margin-top:30px;">
                             <div class="row">
-                                <div class="col-6" style="margin-top:80px">
+                                <div class="col-6" style="margin-top:80px;">
                                     <div style="text-align:center;">
-                                        <t t-esc="'____________________________________________________'" />        
+                                        <t t-esc="'____________________________________________________'" />
                                     </div>
                                     <div style="text-align:center;">
                                         <t t-esc="'Preparado por: '" />
                                         <span t-field="o.create_uid" />
                                     </div>
                                 </div>
-                                <div class="col-6" name="order_data" style="margin-top:80px">
+                                <div class="col-6" name="order_data" style="margin-top:80px;">
                                     <div style="text-align:center;">
-                                        <t t-esc="'__________________________________________________'" />                                    
+                                        <t t-esc="'__________________________________________________'" />
                                     </div>
-                                    <div style="text-align:center;">                                
+                                    <div style="text-align:center;">
                                         <t t-esc="'Recibido por: '" />
-                                        <span t-field="o.partner_id.name" />                                                                    
+                                        <span t-field="o.partner_id.name" />
                                     </div>
-                                    <div style="text-align:center;">                                
+                                    <div style="text-align:center;">
                                         <t t-esc="'C.I.: '" />
-                                        <span t-field="o.partner_id.vat" />                                                                    
+                                        <span t-field="o.partner_id.vat" />
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>
                         </div>
-    
-                        <div t-if="o.signature" class="mt32 ml64 mr4" name="signature" style="margin-top:30px">
-                            
-                            <div style="text-align:center">
+
+                        <div t-if="o.signature" class="mt32 ml64 mr4" name="signature" style="margin-top:30px;">
+
+                            <div style="text-align:center;">
                                 <img t-att-src="image_data_uri(o.signature)" style="max-height: 4cm; max-width: 8cm;" />
                             </div>
                             <div style="text-align:center;">
-                                <t t-esc="'__________________________________________________'" />                                    
+                                <t t-esc="'__________________________________________________'" />
                             </div>
-                            <div style="text-align:center">
+                            <div style="text-align:center;">
                                 <t t-esc="'Firma del cliente: '" />
                                 <span t-field="o.partner_id.name" />
                             </div>
-                        </div>  
+                        </div>
 
-                    </div> 
-                    
+                    </div>
+
                     <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
-                        <div class="row" style="margin-top:1px; text-align: left;"> 
+                        <div class="row" style="margin-top:1px; text-align: left;">
                             <div class="col-auto col-4 mw-100 mb-2" t-if="o.state" name="div_sched_date_footer">
                                 <t t-esc="'Fecha:'" />
                                 <t t-if="o.state == 'done'">
@@ -449,16 +430,19 @@
                                 <t t-if="o.state != 'done'">
                                     <span t-field="o.scheduled_date" />
                                 </t>
-                            </div>                         
-                            
+                            </div>
+
                             <div class="col-auto col-4 mw-100 mb-2" style="text-align: right;">
                                 <div t-if="report_type == 'pdf'" class="text-right">
-                                    Page: <span class="page"/> / <span class="topage"/>
+                                    Page:
+                                    <span class="page" />
+                                    /
+                                    <span class="topage" />
                                 </div>
-                            </div>           
-                                 
+                            </div>
+
                         </div>
-                        
+
                     </div>
 
                 </t>
@@ -469,22 +453,11 @@
         <!-- move line(s) printing for tables -->
         <template id="stock_report_delivery_has_serial_move_line_custom">
             <td>
-                <span t-field="move_line.product_id.default_code" />          
+                <span t-field="move_line.product_id.default_code" />
 
             </td>
             <td>
-                <span t-field="move_line.product_id.name" />          
-
-                <!-- <span t-field="move_line.product_id" /> -->
-                <!-- this is an annoying workaround for the multiple types of descriptions (often auto-filled) that we do not want to print -->
-                <!-- this makes it so we can pre-filter the descriptions in inherited templates since we cannot extend the standard "if" condition -->
-                <!-- let's agree that pre-filtered descriptions will be set to "" -->
-                <!-- <t t-if="not description and description != ''">
-                    <t t-set="description" t-value="move_line.product_id.name" />
-                </t> -->
-                <!-- <p t-if="description !='' and description != move_line.product_id.name">
-                    <span t-esc="description" />
-                </p> -->
+                <span t-field="move_line.product_id.name" />
             </td>
             <t t-if="has_serial_number" name="move_line_lot">
                 <td>
@@ -497,41 +470,29 @@
                 <t t-set="entregado_global" t-value="entregado_global + move_line.qty_done" />
             </td>
             <tr>
-                <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;"  >
-                              
+                <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;">
+
                     <strong>Despachado: </strong>
                     <span t-esc="entregado_global" />
-                   
-                </th>   
+
+                </th>
             </tr>
         </template>
 
         <template id="stock_report_delivery_aggregated_move_lines_custom">
-            
-            
+
+
             <!-- <t t-set="entregado_global" t-value="0" /> -->
 
             <tr t-foreach="aggregated_lines" t-as="line">
                 <td>
-                    <span t-field="move_line.product_id.default_code" />          
-    
+                    <span t-field="move_line.product_id.default_code" />
+
                 </td>
                 <td>
                     <span t-field="move_line.product_id.name" />
                 </td>
-                <!-- <td> -->
-                   <!--  <span t-esc="aggregated_lines[line]['product_id.default_code']" /> -->
-                    <!-- p t-if="aggregated_lines[line]['description']">
-                        <span t-esc="aggregated_lines[line]['description']" />
-                    </p> -->
-                <!-- </td> -->
-                <!-- <td> -->
-                    <!-- <span t-esc="aggregated_lines[line]['product_id.name']" /> -->
-                    <!-- <span t-esc="aggregated_lines[line]['name']" /> -->
-                    <!-- <p t-if="aggregated_lines[line]['description']">
-                        <span t-esc="aggregated_lines[line]['description']" />
-                    </p> -->
-               <!--  </td> -->
+
                 <td class="text-center" name="move_line_aggregated_qty_ordered">
                     <span t-esc="aggregated_lines[line]['qty_ordered']"
                         t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}" />
@@ -547,12 +508,12 @@
                 </td>
             </tr>
             <tr>
-                <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;"  >
-                              
+                <th colspan="4" style="border:1px solid black; border-style: solid none solid none; text-align:left;">
+
                     <strong>Despachado: </strong>
                     <span t-esc="entregado_global" />
-                   
-                </th>   
+
+                </th>
             </tr>
         </template>
 
