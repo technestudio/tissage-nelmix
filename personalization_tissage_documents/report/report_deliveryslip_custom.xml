@@ -138,7 +138,7 @@
                             </div>
                         </div>
                         <h2 style="margin-top:10px; text-transform: uppercase;">
-                            <t t-esc="'Número de conduce:'" />
+                            <t t-esc="'CONDUCE:'" />
                             <span t-field="o.name" />
                         </h2>
 

@@ -295,12 +295,11 @@
                     <div class="oe_structure" style="color:black;" />
 
                     <t t-if="not is_html_empty(doc.note)" name="termino_y_condiciones">
-                        <div class="oe_no_empty" style="margin-top:30px;">
+                        <div style="margin-top:30px;">
 
                             <span t-esc="'TÉRMINO Y CONDICIONES DE PAGO'" />
-
                             <div style="color:black">
-                                <span field="len(doc.note)" />
+                                <span field="doc.note" />
                             </div>
                         </div>
                     </t>
