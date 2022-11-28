@@ -15,27 +15,26 @@
                         <span t-field="doc.partner_id.vat" />
                     </p>
                 </t>
-                <t t-if="doc.partner_shipping_id == doc.partner_invoice_id
-                                        and doc.partner_invoice_id != doc.partner_id
-                                        or doc.partner_shipping_id != doc.partner_invoice_id">
-                    <t t-set="information_block">
-                        <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and Shipping Address:</strong>
-                        <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing Address:</strong>
-                        <div t-field="doc.partner_invoice_id"
-                            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                        <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
-                            <strong>Shipping Address:</strong>
-                            <div t-field="doc.partner_shippglking_id"
-                                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-                        </t>
+
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
                     </t>
                 </t>
 
-                <div class="header" style="margin-bottom: 10px;">
+                <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style" style="margin-bottom: 10px;">
                     <div class="row">
                         <div class="col-8">
                             <div>
-                                <img src='/personalization_tissage_documents/static/logo/tissage_logo.png' style="height: 130px; width: 520px; float: left; margin-top: 32px; margin-bottom: 20px;" alt="Logo" />
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="height: 130px; width: 520px; float: left; margin-top: 32px; margin-bottom: 20px;" alt="Logo" />
                             </div>
                         </div>
                         <div class="col-4" name="order_data" style="margin-top:30px; margin-botton:25px;">
@@ -345,20 +344,6 @@
                 </div>
 
                 <!-- support for custom footer -->
-                <t t-if="not o" t-set="o" t-value="doc" />
-
-                <t t-if="not company">
-                    <!-- Multicompany -->
-                    <t t-if="company_id">
-                        <t t-set="company" t-value="company_id" />
-                    </t>
-                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
-                        <t t-set="company" t-value="o.company_id.sudo()" />
-                    </t>
-                    <t t-else="else">
-                        <t t-set="company" t-value="res_company" />
-                    </t>
-                </t>
 
                 <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
                     <div class="row" style="margin-top:1px; margin-left:5px;">

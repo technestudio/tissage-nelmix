@@ -22,11 +22,11 @@
                         </t>
                     </t>
 
-                    <div class="header" style="margin-bottom: 2px;">
+                    <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style" style="margin-bottom: 2px;">
                         <div class="row">
                             <div class="col-4" name="logo">
                                 <div>
-                                    <img src='/personalization_tissage_documents/static/logo/tissage_logo.png' style="height: 80px; width: 250px; float: left; margin-top: 45px; margin-bottom: 1px;" alt="Logo" />
+                                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="height: 80px; width: 250px; float: left; margin-top: 45px; margin-bottom: 1px;" alt="Logo" />
                                 </div>
                             </div>
 
@@ -83,7 +83,7 @@
                                         <strong>Dirección del Proveedor:</strong>
                                     </span>
                                 </div>
-                                <div t-if="o.picking_type_id.code=='internal' and partner">
+                                <div t-if="o.picking_type_id.code=='internal' and o.picking_type_id.code!='outgoing' and partner">
                                     <span>
                                         <strong>Dirección del almacén:</strong>
                                     </span>

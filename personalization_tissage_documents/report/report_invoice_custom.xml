@@ -17,12 +17,25 @@
             <t t-call="personalization_tissage_documents.basic_layout_custom">
                 <t t-set="o" t-value="o.with_context(lang=lang)" />
                 <t t-set="forced_vat" t-value="o.fiscal_position_id.foreign_vat" /> <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
+                <t t-if="not o" t-set="o" t-value="doc" />
+                <t t-if="not company">
+                    <!-- Multicompany -->
+                    <t t-if="company_id">
+                        <t t-set="company" t-value="company_id" />
+                    </t>
+                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                        <t t-set="company" t-value="o.company_id.sudo()" />
+                    </t>
+                    <t t-else="else">
+                        <t t-set="company" t-value="res_company" />
+                    </t>
+                </t>
 
-                <div class="header" style="margin-bottom: 1px;">
+                <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style" style="margin-bottom: 1px;">
                     <div class="row">
                         <div class="col-8">
                             <div>
-                                <img src='/personalization_tissage_documents/static/logo/tissage_logo.png' style="height: 200px; width: 520px; float: left; margin-top: 50px; margin-bottom: 1px;" alt="Logo" />
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="height: 200px; width: 520px; float: left; margin-top: 50px; margin-bottom: 1px;" alt="Logo" />
                             </div>
                         </div>
                         <div class="col-4" name="order_data" style="margin-top:60px; margin-botton:5px;">
@@ -278,20 +291,6 @@
                 </div>
 
                 <!-- support for custom footer -->
-                <t t-if="not o" t-set="o" t-value="doc" />
-
-                <t t-if="not company">
-                    <!-- Multicompany -->
-                    <t t-if="company_id">
-                        <t t-set="company" t-value="company_id" />
-                    </t>
-                    <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
-                        <t t-set="company" t-value="o.company_id.sudo()" />
-                    </t>
-                    <t t-else="else">
-                        <t t-set="company" t-value="res_company" />
-                    </t>
-                </t>
 
                 <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
                     <div class="row" style="margin-top:1px; text-align: left;">
@@ -347,8 +346,6 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
-                    <!-- <t t-if="o._get_name_invoice_report() == 'personalization_tissage_documents.report_invoice_document_custom'"
-                        t-call="personalization_tissage_documents.report_invoice_document_custom" t-lang="lang"/> -->
                     <t t-call="personalization_tissage_documents.report_invoice_document_custom" t-lang="lang" />
                 </t>
             </t>
@@ -359,8 +356,6 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang" />
                     <t t-set="print_with_payments" t-value="True" />
-                    <!-- <t t-if="o._get_name_invoice_report() == 'personalization_tissage_documents.report_invoice_document_custom'"
-                        t-call="personalization_tissage_documents.report_invoice_document_custom" t-lang="lang"/> -->
                     <t t-call="personalization_tissage_documents.report_invoice_document_custom" t-lang="lang" />
                 </t>
             </t>
